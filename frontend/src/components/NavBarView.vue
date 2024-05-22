@@ -1,0 +1,90 @@
+<template>
+  <div>
+    <nav class="nav-bar">
+      <div class="nav-bar-login">
+        <div class="nav-laft">
+          <a v-if="account.isLoggedIn" @click="logout()">로그아웃</a>
+        </div>
+        <a v-if="!account.isLoggedIn" @click="login()">로그인</a>
+      </div>
+    </nav>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+import { useStore } from '@/stores/dev_test';
+import router from '@/router';
+import Swal from 'sweetalert2';
+export default {
+  setup() {
+    const account = ref(useStore());
+    const login = () => {
+      router.push({name: 'LoginView'})
+    };
+    const logout = () => {
+      Swal.fire({
+        title: 'CURI@US',
+        text: '로그아웃 하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          account.value.logout();
+        }
+      });
+    };
+    return {
+      account,
+      login,
+      logout,
+    };
+  },
+};
+</script>
+
+<style scoped>
+/* @font-face {
+  font-family: "BMJUA_ttf";
+  src: url(../assets/BMJUA_ttf.ttf);
+  font-weight: normal;
+  font-style: normal;
+} */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  height: 8vh;
+  z-index: 1;
+}
+
+/* .nav-bar-login {
+  font-family: "BMJUA_ttf";
+  border-style: none;
+  background: none;
+  margin-right: 5vw;
+} */
+
+.nav-bar-logo-img {
+  height: 5vh;
+  margin-left: 7vw;
+}
+.nav-laft {
+  display: flex;
+}
+
+.nav-laft a {
+  margin: 5px;
+  text-decoration: none;
+  color: black;
+}
+.nav-laft a:hover {
+  color: gold;
+}
+</style>
