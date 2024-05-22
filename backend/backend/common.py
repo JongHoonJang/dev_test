@@ -1,4 +1,3 @@
-from django.utils import timezone
 import jwt
 from rest_framework.response import Response
 from .settings import SIMPLE_JWT
