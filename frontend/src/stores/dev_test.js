@@ -7,13 +7,24 @@ import Swal from "sweetalert2";
 export const useStore = defineStore("dev_test", {
   state: () => ({
     accesstoken: localStorage.getItem("token") || "",
-    profile: {},
+    boards: [],
   }),
   getters: {
     isLoggedIn: (state) => !!state.accesstoken,
     authHeader: (state) => ({ Authorization: `Bearer ${state.accesstoken}` }),
   },
   actions: {
+    fatchBoard() {
+      axios
+        .get(api.boards.boards_list(), {
+        })
+        .then((res) => {
+          this.boards = res.data;
+        })
+        .catch((err) => {
+          console.error(err.response);
+        });
+    },
     createBoard(data) {
       axios
         .post(api.boards.boards_create(), {

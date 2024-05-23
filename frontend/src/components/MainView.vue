@@ -1,13 +1,38 @@
 <template>
-  <div>
-  </div>
+  <table class="table table-boarderd table-hover boardlist">
+    <thead>
+			<tr style="background-color: #ccffee">
+				<th>번호</th>
+				<th class="title">제목</th>
+				<th>작성자</th>
+				<th>작성일</th>
+				<th>조회</th>
+			</tr>
+		</thead>
+    <tbody>
+      <BoardListView
+      v-for="board in boards.boards"
+      :key="board.id"
+      :board="board"
+      />
+    </tbody>
+  </table>
 </template>
 
 <script>
+import { ref } from 'vue';
+import BoardListView from '@/components/BoardListView.vue'
+import { useStore } from '@/stores/dev_test';
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  components: {
+    BoardListView
+  },
+  setup() {
+    const boards = ref(useStore())
+    boards.value.fatchBoard()
+    return {
+      boards
+    }
   }
 }
 </script>
