@@ -9,7 +9,7 @@
 		</c:choose>					
 		</td>
 		<td>{{boards.board.user_id.name}}</td>
-		<td>{{boards.board.created_at}}</td>
+		<td>{{day}} {{time[0]}}</td>
 		<td>0</td>
 	</tr>
 </template>
@@ -22,9 +22,16 @@ export default {
   setup(props) {
     const test = useStore()
     const boards = ref(props)
+    const timedata = (boards.value.board.created_at).split('T')
+    const day = timedata[0]
+    const time = timedata[1].split('.')
+
+
     return {
       boards,
-      test
+      test,
+      day,
+      time
     }
   }
 }
