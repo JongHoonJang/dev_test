@@ -9,7 +9,7 @@
  
           <div class="wi_line"></div>
             <div id="in_content">
-              <textarea v-model.trim="credentials.title" name="content" id="ucontent" placeholder="내용" required></textarea>
+              <textarea v-model.trim="credentials.content" name="content" id="ucontent" placeholder="내용" required></textarea>
             </div>
  
             <div class="bt_se">

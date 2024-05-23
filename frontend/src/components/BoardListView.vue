@@ -4,12 +4,12 @@
 		<td>
 		<c:choose>
 		<c:otherwise>
-			<router-link :to="{ name: 'BoardDetailView' }">{{boards.board.title}}</router-link>
+			<router-link :to="{ name: 'BoardDetailView',params: {board_id: boards.board.id} }">{{boards.board.title}}</router-link>
 		</c:otherwise>
 		</c:choose>					
 		</td>
 		<td>{{boards.board.user_id.name}}</td>
-		<td>{{boards.board.create_at}}</td>
+		<td>{{boards.board.created_at}}</td>
 		<td>0</td>
 	</tr>
 </template>

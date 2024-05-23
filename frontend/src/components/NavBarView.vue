@@ -5,7 +5,16 @@
         <div class="nav-laft">
           <a v-if="account.isLoggedIn" @click="logout()">로그아웃</a>
         </div>
-        <a v-if="!account.isLoggedIn" @click="login()">로그인</a>
+        <form v-if="!account.isLoggedIn" @submit.prevent="login(credentials)" class='account-info'>
+          <p><input v-model.trim="credentials.username" type="username" placeholder="username" class="input-prop"></p>
+          <p><input v-model.trim="credentials.password" type="password" placeholder="password" class="input-prop"></p>
+            <div class="btn-box">
+              <button class="login-btn">Sign In</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <a class='create_board' @click="writing()">글쓰기</a>
       </div>
     </nav>
   </div>
@@ -19,8 +28,15 @@ import Swal from 'sweetalert2';
 export default {
   setup() {
     const account = ref(useStore());
-    const login = () => {
-      router.push({name: 'LoginView'})
+    const credentials = {
+      username: '',
+      password: ''
+    }
+    const writing = () => {
+      router.push({name: 'BoardCreateView'})
+    }
+    const login = (data) => {
+      account.value.fetchLogin(data)
     };
     const logout = () => {
       Swal.fire({
@@ -39,8 +55,10 @@ export default {
     };
     return {
       account,
+      credentials,
       login,
       logout,
+      writing,
     };
   },
 };

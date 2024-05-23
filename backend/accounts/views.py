@@ -15,8 +15,8 @@ from .serializers import (
 
 @api_view(["POST"])
 def login(request):
-    username=request.data.get("username")
-    password=request.data.get("password")
+    username=request.data.get("params").get("username")
+    password=request.data.get("params").get("password")
     user = get_user_model().objects.get(username=username)
     
     if user is not None and check_password(password, user.password):
@@ -37,7 +37,7 @@ def login(request):
 @api_view(["POST"])
 def logout(request):
     if request.method == "POST":
-        token = request.META.get("HTTP_AUTHORIZATION")
+        token = request.data.get('headers').get('Authorization')
         user_id = checkuser(token)
         tokens = OutstandingToken.objects.filter(user_id=user_id)
         if tokens is not None:
@@ -51,7 +51,7 @@ def logout(request):
 @api_view(["POST"])
 def signup(request):
     if request.method == "POST":
-        user = UserSignupSerializer(data=request.data)
+        user = UserSignupSerializer(data=request.data.get("params"))
         if user.is_valid(raise_exception=True):
             user.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -62,7 +62,7 @@ def signup(request):
 
 @api_view(["GET", "PUT", "DELETE"])
 def user_detail_or_update_or_delete(request):
-    token = request.META.get("HTTP_AUTHORIZATION")
+    token = request.data.get('headers').get('Authorization')
     user_id = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_id)
     # 유저 상세정보

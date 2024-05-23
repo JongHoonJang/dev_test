@@ -28,13 +28,11 @@ export const useStore = defineStore("dev_test", {
     createBoard(data) {
       axios
         .post(api.boards.boards_create(), {
-          params: {
+          data: {
             title: data.title,
             content: data.content
           },
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
+          headers: this.authHeader,
         })
         .then((res) => {
           Swal.fire({
@@ -42,7 +40,7 @@ export const useStore = defineStore("dev_test", {
             text: "게시글이 작성되었습니다.",
             icon: "success",
           });
-          this.saveToken(res.data.data);
+          this.boards = res.data;
           router.push({ name: "MainView" });
         })
         .catch((err) => {
@@ -60,14 +58,12 @@ export const useStore = defineStore("dev_test", {
       this.accesstoken = "";
       localStorage.setItem("token", "");
     },
-    fetchLogin(type, code) {
+    fetchLogin(credentials) {
       axios
-        .get(api.accounts.login(type), {
-          params: {
-            code: code,
-          },
-          headers: {
-            "Access-Control-Allow-Origin": "*",
+        .post(api.accounts.login(), {
+          data: {
+            username: credentials.username,
+            password: credentials.password
           },
         })
         .then((res) => {
@@ -76,8 +72,9 @@ export const useStore = defineStore("dev_test", {
             text: "로그인 되었습니다.",
             icon: "success",
           });
-          this.saveToken(res.data.data);
-          router.push({ name: "MainView2" });
+          console.log(res.data.access)
+          this.saveToken(res.data.access);
+          router.push({ name: "MainView" });
         })
         .catch((err) => {
           console.error(err.response);

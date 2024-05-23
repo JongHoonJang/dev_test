@@ -19,11 +19,11 @@ def board_list(request):
 
 @api_view(["POST"])
 def board_create(request):
-    token = request.META.get("HTTP_AUTHORIZATION")
+    token = request.data.get('headers').get('Authorization')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     if request.method == "POST":
-        serializer = BoardCreateSerializer(data=request.data)
+        serializer = BoardCreateSerializer(data=request.data.get("params"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(user_id=user)
         return Response(status=status.HTTP_201_CREATED)
@@ -32,7 +32,7 @@ def board_create(request):
 def board_detail_or_update_or_delete(request):
     board_id = request.data.get("id")
     borad = get_object_or_404(Board, id=board_id)
-    token = request.META.get("HTTP_AUTHORIZATION")
+    token = request.data.get('headers').get('Authorization')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     
@@ -41,7 +41,7 @@ def board_detail_or_update_or_delete(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == "PUT":
-        serializer = BoardDetailSerializer(instance=borad, data=request.data)
+        serializer = BoardDetailSerializer(instance=borad, data=request.data.get("params"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(user_id=user)
         return Response(status=status.HTTP_200_OK)
@@ -54,7 +54,7 @@ def board_detail_or_update_or_delete(request):
 
 @api_view(['GET', 'POST'])
 def comment_list_or_create(request, board_id):
-    token = request.META.get("HTTP_AUTHORIZATION")
+    token = request.data.get('headers').get('Authorization')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     board = get_object_or_404(Board, id=board_id)
@@ -64,7 +64,7 @@ def comment_list_or_create(request, board_id):
         serializer = CommentListSerializer(comments, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = CommentListSerializer(data=request.data)
+        serializer = CommentListSerializer(data=request.data.get("params"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(board_id=board, user_id=user)
 
@@ -75,7 +75,7 @@ def comment_list_or_create(request, board_id):
 
 @api_view(['PUT', 'DELETE'])
 def comment_update_or_delete(request, board_id, comment_id):
-    token = request.META.get("HTTP_AUTHORIZATION")
+    token = request.data.get('headers').get('Authorization')
     user_id = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_id)
     board = get_object_or_404(Board, id=board_id)
@@ -83,7 +83,7 @@ def comment_update_or_delete(request, board_id, comment_id):
     
     if request.method == 'PUT':
         if user == comment.user:
-            serializer = CommentListSerializer(instance=comment, data=request.data)
+            serializer = CommentListSerializer(instance=comment, data=request.data.get("params"))
             if serializer.is_valid(raise_exception=True):
                 serializer.save(board=board, user=user)
                 comments = board.comment_set.order_by('-id')
