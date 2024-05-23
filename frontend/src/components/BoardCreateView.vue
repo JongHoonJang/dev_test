@@ -1,17 +1,17 @@
 <template>
   <div id="board_write">
-    <h4>글을 작성하는 공간입니다.</h4>
       <div id="write_area">
         <form @submit.prevent="boardCreate(credentials)" enctype="multipart/form-data" method="post">
+          <div>제목</div>
           <div id="in_title">
             <textarea v-model.trim="credentials.title" name="title" id="utitle" rows="1" cols="55" placeholder="제목" maxlength="100" required></textarea>
           </div>
- 
-          <div class="wi_line"></div>
+
+          <div class="wi_line">내용</div>
             <div id="in_content">
               <textarea v-model.trim="credentials.content" name="content" id="ucontent" placeholder="내용" required></textarea>
             </div>
- 
+            
             <div class="bt_se">
               <button type="submit">글 작성</button>
             </div>
@@ -45,3 +45,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.board_write{
+  display: flex;
+}
+</style>

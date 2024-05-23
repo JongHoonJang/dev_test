@@ -1,5 +1,4 @@
 <template>
-  <div>
     <nav class="nav-bar">
       <div class="nav-bar-login">
         <div class="nav-laft">
@@ -17,7 +16,6 @@
         <a class='create_board' @click="writing()">글쓰기</a>
       </div>
     </nav>
-  </div>
 </template>
 
 <script>
@@ -71,14 +69,20 @@ export default {
   font-weight: normal;
   font-style: normal;
 } */
+nav {
+  margin: 0;
+  width: 99vw;
+}
 .nav-bar {
+  padding: 8px 12px;
+  background-color: aqua;
   position: fixed;
   top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
-  height: 8vh;
+  height: 6vh;
+  margin: 0;
   z-index: 1;
 }
 
@@ -89,10 +93,6 @@ export default {
   margin-right: 5vw;
 } */
 
-.nav-bar-logo-img {
-  height: 5vh;
-  margin-left: 7vw;
-}
 .nav-laft {
   display: flex;
 }
