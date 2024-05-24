@@ -13,7 +13,7 @@ export default {
 
 <style>
 .body {
-  height: 60vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

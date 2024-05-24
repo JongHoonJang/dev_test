@@ -15,8 +15,9 @@ from .serializers import (
 
 @api_view(["POST"])
 def login(request):
-    username=request.data.get("params").get("username")
-    password=request.data.get("params").get("password")
+    print(request.data)
+    username=request.data.get("data").get("username")
+    password=request.data.get("data").get("password")
     user = get_user_model().objects.get(username=username)
     
     if user is not None and check_password(password, user.password):
@@ -51,7 +52,7 @@ def logout(request):
 @api_view(["POST"])
 def signup(request):
     if request.method == "POST":
-        user = UserSignupSerializer(data=request.data.get("params"))
+        user = UserSignupSerializer(data=request.data.get("data"))
         if user.is_valid(raise_exception=True):
             user.save()
             return Response(status=status.HTTP_201_CREATED)

@@ -5,9 +5,11 @@
           <a v-if="account.isLoggedIn" @click="logout()">로그아웃</a>
         </div>
         <form v-if="!account.isLoggedIn" @submit.prevent="login(credentials)" class='account-info'>
-          <p><input v-model.trim="credentials.username" type="username" placeholder="username" class="input-prop"></p>
-          <p><input v-model.trim="credentials.password" type="password" placeholder="password" class="input-prop"></p>
-            <div class="btn-box">
+          <div>
+            <p><input v-model.trim="credentials.username" type="username" placeholder="username" class="input-prop"></p>
+            <p><input v-model.trim="credentials.password" type="password" placeholder="password" class="input-prop"></p> 
+          </div>
+          <div class="btn-box">
               <button class="login-btn">Sign In</button>
           </div>
         </form>
@@ -38,7 +40,7 @@ export default {
     };
     const logout = () => {
       Swal.fire({
-        title: 'CURI@US',
+        title: 'dev_test',
         text: '로그아웃 하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
@@ -86,12 +88,12 @@ nav {
   z-index: 1;
 }
 
-/* .nav-bar-login {
-  font-family: "BMJUA_ttf";
+.nav-bar-login .account-info {
+  align-items: center;
   border-style: none;
   background: none;
   margin-right: 5vw;
-} */
+}
 
 .nav-laft {
   display: flex;
@@ -105,4 +107,7 @@ nav {
 .nav-laft a:hover {
   color: gold;
 }
+/* .input-prop{
+
+} */
 </style>

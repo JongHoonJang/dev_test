@@ -8,18 +8,30 @@ export const useStore = defineStore("dev_test", {
   state: () => ({
     accesstoken: localStorage.getItem("token") || "",
     boards: [],
+    board: {},
   }),
   getters: {
     isLoggedIn: (state) => !!state.accesstoken,
     authHeader: (state) => ({ Authorization: `Bearer ${state.accesstoken}` }),
   },
   actions: {
-    fatchBoard() {
+    fatchBoards() {
       axios
         .get(api.boards.boards_list(), {
         })
         .then((res) => {
           this.boards = res.data;
+        })
+        .catch((err) => {
+          console.error(err.response);
+        });
+    },
+    fatchBoard(data) {
+      axios
+        .get(api.boards.boards_detail_update_delete(data), {
+        })
+        .then((res) => {
+          this.board = res.data;
         })
         .catch((err) => {
           console.error(err.response);
@@ -47,7 +59,46 @@ export const useStore = defineStore("dev_test", {
           console.error(err.response);
         });
     },
-
+    updateBoard(data) {
+      axios
+        .put(api.boards.boards_detail_update_delete(data.board_id), {
+          data: {
+            title: data.title,
+            content: data.content
+          },
+          headers: this.authHeader,
+        })
+        .then((res) => {
+          Swal.fire({
+            title: "dev_test",
+            text: "게시글이 수정되었습니다.",
+            icon: "success",
+          });
+          this.boards = res.data;
+          router.push({ name: "BoardDetailView" });
+        })
+        .catch((err) => {
+          console.error(err.response);
+        });
+    },
+    deleteBoard(data) {
+      axios
+        .delete(api.boards.boards_detail_update_delete(data), {
+          headers: this.authHeader,
+        })
+        .then((res) => {
+          Swal.fire({
+            title: "dev_test",
+            text: "게시글이 삭제되었습니다.",
+            icon: "success",
+          });
+          this.boards = res.data;
+          router.push({ name: "MainView" });
+        })
+        .catch((err) => {
+          console.error(err.response);
+        });
+    },
 
     saveToken(token) {
       this.accesstoken = token;
@@ -82,8 +133,8 @@ export const useStore = defineStore("dev_test", {
     },
     logout() {
       axios
-        .get(api.accounts.logout(), {
-          withCredentials: true,
+        .post(api.accounts.logout(), {
+          headers: this.authHeader,
         })
         .then(() => {
           this.removeToken();
@@ -92,7 +143,7 @@ export const useStore = defineStore("dev_test", {
             text: "로그아웃 되었습니다.",
             icon: "success",
           });
-          router.push({ name: "RandingView" });
+          router.push({ name: "MainView" });
         });
     },
     fetchProfile() {

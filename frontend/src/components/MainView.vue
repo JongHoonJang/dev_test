@@ -31,7 +31,7 @@ export default {
   },
   setup() {
     const boards = ref(useStore())
-    boards.value.fatchBoard()
+    boards.value.fatchBoards()
     return {
       boards
     }

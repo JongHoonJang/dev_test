@@ -23,25 +23,25 @@ def board_create(request):
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     if request.method == "POST":
-        serializer = BoardCreateSerializer(data=request.data.get("params"))
+        serializer = BoardCreateSerializer(data=request.data.get("data"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(user_id=user)
         return Response(status=status.HTTP_201_CREATED)
     
 @api_view(["GET", "PUT", "DELETE"])
-def board_detail_or_update_or_delete(request):
-    board_id = request.data.get("id")
+def board_detail_or_update_or_delete(request, board_id):
     borad = get_object_or_404(Board, id=board_id)
-    token = request.data.get('headers').get('Authorization')
-    user_token = checkuser(token)
-    user = get_object_or_404(get_user_model(), id=user_token)
     
     if request.method == "GET":
         serializer = BoardDetailSerializer(borad)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    elif request.method == "PUT":
-        serializer = BoardDetailSerializer(instance=borad, data=request.data.get("params"))
+    
+    token = request.data.get('headers').get('Authorization')
+    user_token = checkuser(token)
+    user = get_object_or_404(get_user_model(), id=user_token)
+    print(request.data.get("data"))
+    if request.method == "PUT":
+        serializer = BoardDetailSerializer(instance=borad, data=request.data.get("data"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(user_id=user)
         return Response(status=status.HTTP_200_OK)
@@ -64,7 +64,7 @@ def comment_list_or_create(request, board_id):
         serializer = CommentListSerializer(comments, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = CommentListSerializer(data=request.data.get("params"))
+        serializer = CommentListSerializer(data=request.data.get("data"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(board_id=board, user_id=user)
 
@@ -83,7 +83,7 @@ def comment_update_or_delete(request, board_id, comment_id):
     
     if request.method == 'PUT':
         if user == comment.user:
-            serializer = CommentListSerializer(instance=comment, data=request.data.get("params"))
+            serializer = CommentListSerializer(instance=comment, data=request.data.get("data"))
             if serializer.is_valid(raise_exception=True):
                 serializer.save(board=board, user=user)
                 comments = board.comment_set.order_by('-id')
