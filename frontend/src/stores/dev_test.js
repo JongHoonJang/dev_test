@@ -40,6 +40,7 @@ export const useStore = defineStore("dev_test", {
     createBoard(data) {
       axios
         .post(api.boards.boards_create(), {
+          no: data.no,
           data: {
             title: data.title,
             content: data.content

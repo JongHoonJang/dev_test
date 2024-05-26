@@ -82,7 +82,7 @@ table {
   width : 300px;
   height : 200px;
 }
-th, td {
+th {
   text-align: center;
 }
 </style>

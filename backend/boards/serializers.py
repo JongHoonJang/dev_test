@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, Comment
+from .models import Board
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -51,6 +51,9 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             'user_id',
             'title',
             'content',
+            'order_id',
+            'group_order',
+            'depth',
             'created_at', 
             # 'comment_set',        
         )

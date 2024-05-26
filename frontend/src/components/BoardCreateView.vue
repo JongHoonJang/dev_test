@@ -32,6 +32,7 @@ export default {
   setup() {
     const dev_test = ref(useStore());
     const credentials = {
+      no: -1,
       title: '',
       content: ''
     }

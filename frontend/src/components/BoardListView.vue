@@ -1,6 +1,7 @@
 <template>
 	<tr>
-		<td>{{boards.board.id}}</td>
+		<td class='td' v-if="!isQuestion" >Q</td>
+    <td class='td' v-if="isQuestion" >A</td>
 		<td>
 		<c:choose>
 		<c:otherwise>
@@ -8,9 +9,9 @@
 		</c:otherwise>
 		</c:choose>					
 		</td>
-		<td>{{boards.board.user_id.name}}</td>
-		<td>{{day}} {{time[0]}}</td>
-		<td>0</td>
+		<td class='td'>{{boards.board.user_id.name}}</td>
+		<td class='td'>{{day}} {{time[0]}}</td>
+		<td class='td'>0</td>
 	</tr>
 </template>
 
@@ -25,15 +26,21 @@ export default {
     const timedata = (boards.value.board.created_at).split('T')
     const day = timedata[0]
     const time = timedata[1].split('.')
-
+    const isQuestion = !!boards.value.board.order_id
 
     return {
       boards,
       test,
       day,
-      time
+      time,
+      isQuestion
     }
   }
 }
 </script>
 
+<style scoped>
+.td {
+  text-align: center;
+}
+</style>
