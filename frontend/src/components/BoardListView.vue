@@ -5,7 +5,8 @@
 		<td>
 		<c:choose>
 		<c:otherwise>
-			<router-link :to="{ name: 'BoardDetailView',params: {board_id: boards.board.id} }">{{boards.board.title}}</router-link>
+      <pre v-if="!boards.board.depth" @click="to_detail()">{{boards.board.title}}</pre>
+			<pre v-if="boards.board.depth" @click="to_detail()">{{blank}} {{boards.board.title}}</pre>
 		</c:otherwise>
 		</c:choose>					
 		</td>
@@ -17,6 +18,7 @@
 
 <script>
 import { ref } from 'vue';
+import router from "@/router";
 import { useStore } from '@/stores/dev_test';
 export default {
   props: ['board'],
@@ -27,13 +29,21 @@ export default {
     const day = timedata[0]
     const time = timedata[1].split('.')
     const isQuestion = !!boards.value.board.order_id
-
+    let blank = '->';
+    boards.value.board.depth * 5
+    blank = blank.padStart(boards.value.board.depth * 3, " ")
+    console.log(blank)
+    const to_detail = () => {
+      router.push({ name: 'BoardDetailView',params: {board_id: boards.value.board.id} });
+    }
     return {
       boards,
       test,
       day,
       time,
-      isQuestion
+      isQuestion,
+      blank,
+      to_detail
     }
   }
 }
@@ -42,5 +52,8 @@ export default {
 <style scoped>
 .td {
   text-align: center;
+}
+pre {
+  margin: 0;
 }
 </style>
