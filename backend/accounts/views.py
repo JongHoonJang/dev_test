@@ -15,7 +15,6 @@ from .serializers import (
 
 @api_view(["POST"])
 def login(request):
-    print(request.data)
     username=request.data.get("data").get("username")
     password=request.data.get("data").get("password")
     user = get_user_model().objects.get(username=username)

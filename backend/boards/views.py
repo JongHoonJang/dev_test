@@ -5,25 +5,22 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Board
-from .serializers import BoardCreateSerializer, BoardDetailSerializer
+from .models import Board, Counting
+from .serializers import BoardListSerializer, BoardDetailSerializer
 from django.db.models.aggregates import Max
 
 # Create your views here.
 @api_view(["GET"])
 def board_list(request):
-    # select * from board order by grp desc, seq asc;
-
     if request.method == "GET":
         boards = Board.objects.order_by('group_order','order_id')
         
-        serializer = BoardDetailSerializer(boards, many=True)
+        serializer = BoardListSerializer(boards, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_403_FORBIDDEN)
 
 @api_view(["POST"])
 def board_create(request):
-    print(request.data)
     board = Board()
     token = request.data.get('headers').get('Authorization')
     user_token = checkuser(token)
@@ -66,7 +63,6 @@ def board_detail_or_update_or_delete(request, board_id):
     token = request.data.get('headers').get('Authorization')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
-    print(request.data.get("data"))
     if request.method == "PUT":
         serializer = BoardDetailSerializer(instance=borad, data=request.data.get("data"))
         if serializer.is_valid(raise_exception=True):
@@ -79,46 +75,20 @@ def board_detail_or_update_or_delete(request, board_id):
 
     return Response(status=status.HTTP_403_FORBIDDEN)
 
-# @api_view(['GET', 'POST'])
-# def comment_list_or_create(request, board_id):
-#     token = request.data.get('headers').get('Authorization')
-#     user_token = checkuser(token)
-#     user = get_object_or_404(get_user_model(), id=user_token)
-#     board = get_object_or_404(Board, id=board_id)
+@api_view(["GET"])
+def get_counting(request):  
+    board = get_object_or_404(Board,request.data.get('data').get('id'))
+    if request.data.get('headers').get('Authorization').exists():
+        token = request.data.get('headers').get('Authorization')
+        user_token = checkuser(token)
+        if not board.counting.get(ip=user_token).exists():
+            board.counting.add(user_token)
+        
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+        if not board.counting.get(ip=ip).exists():
+            board.counting.add(ip)
 
-#     if request.method == 'GET':
-#         comments = board.comment_set.order_by('-id')
-#         serializer = CommentListSerializer(comments, many=True)
-#         return Response(serializer.data)
-#     elif request.method == 'POST':
-#         serializer = CommentListSerializer(data=request.data.get("data"))
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save(board_id=board, user_id=user)
-
-#             comments = board.comment_set.order_by('-id')
-#             serializer = CommentListSerializer(comments, many=True)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_200_OK)
 
 
-# @api_view(['PUT', 'DELETE'])
-# def comment_update_or_delete(request, board_id, comment_id):
-#     token = request.data.get('headers').get('Authorization')
-#     user_id = checkuser(token)
-#     user = get_object_or_404(get_user_model(), id=user_id)
-#     board = get_object_or_404(Board, id=board_id)
-#     comment = get_object_or_404(Comment, id=comment_id)
-    
-#     if request.method == 'PUT':
-#         if user == comment.user:
-#             serializer = CommentListSerializer(instance=comment, data=request.data.get("data"))
-#             if serializer.is_valid(raise_exception=True):
-#                 serializer.save(board=board, user=user)
-#                 comments = board.comment_set.order_by('-id')
-#                 serializer = CommentListSerializer(comments, many=True)
-#                 return Response(serializer.data)
-#     elif request.method == 'DELETE':
-#         if user == comment.user:
-#             comment.delete()
-#             comments = board.comment_set.order_by('-id')
-#             serializer = CommentListSerializer(comments, many=True)
-#             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
