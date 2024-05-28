@@ -42,7 +42,7 @@ class BoardListSerializer(serializers.ModelSerializer):
             'counting',
             'board_counting',       
         )
-        
+        read_only_fields = ('counting', 'board_counting' )
         
 
 

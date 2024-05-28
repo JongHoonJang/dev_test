@@ -12,7 +12,7 @@
 		</td>
 		<td class='td'>{{boards.board.user_id.name}}</td>
 		<td class='td'>{{day}} {{time[0]}}</td>
-		<td class='td'>0</td>
+		<td class='td'>{{boards.board.board_counting}}</td>
 	</tr>
 </template>
 

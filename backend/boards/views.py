@@ -77,17 +77,17 @@ def board_detail_or_update_or_delete(request, board_id):
 
 @api_view(["GET"])
 def get_counting(request):  
-    board = get_object_or_404(Board,request.data.get('data').get('id'))
-    if request.data.get('headers').get('Authorization').exists():
+    board = get_object_or_404(Board,id=request.data.get('data').get('id'))
+    if 'headers' in request.data.keys():
         token = request.data.get('headers').get('Authorization')
         user_token = checkuser(token)
-        if not board.counting.get(ip=user_token).exists():
-            board.counting.add(user_token)
-        
+        user = get_object_or_404(get_user_model(), id=user_token)
+        if not board.counting.filter(ip=user.username).exists():
+           board.counting.create(ip=user.username)  
     else:
         ip = request.META.get('REMOTE_ADDR')
-        if not board.counting.get(ip=ip).exists():
-            board.counting.add(ip)
+        if not board.counting.filter(ip=ip).exists():
+            board.counting.create(ip=ip)
 
     return Response(status=status.HTTP_200_OK)
 
