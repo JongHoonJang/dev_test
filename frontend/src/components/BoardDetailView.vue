@@ -13,7 +13,7 @@
     </div>
     <div>내용</div>
     <div>
-      {{boards.board.content}}{{isAnswer}}
+      {{boards.board.content}}
     </div>
     <div class="buttons">
       <button @click="isAnswer=true">답변</button>
@@ -66,7 +66,7 @@ export default {
       }
     }
     const editBoard = () => {
-      router.push({ name: 'BoardDetailView',params: {board_id: board_id.value} })
+      router.push({ name: 'BoardEditView',params: {board_id: board_id.value} })
     }
     return {
       boards,

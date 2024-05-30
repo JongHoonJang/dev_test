@@ -58,8 +58,7 @@ def board_detail_or_update_or_delete(request, board_id):
     if request.method == "GET":
         serializer = BoardDetailSerializer(board)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    token = request.META.get("HTTP_AUTHORIZATION")
+    token = request.data.get('headers').get('Authorization')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     if request.method == "PUT":

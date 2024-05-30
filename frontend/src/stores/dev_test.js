@@ -73,8 +73,9 @@ export const useStore = defineStore("dev_test", {
         });
     },
     updateBoard(data) {
+      console.log(data)
       axios
-        .put(api.boards.boards_detail_update_delete(data.board_id), {
+        .put(api.boards.boards_detail_update_delete(data.no), {
           data: {
             title: data.title,
             content: data.content
@@ -140,7 +141,6 @@ export const useStore = defineStore("dev_test", {
             text: "로그인 되었습니다.",
             icon: "success",
           });
-          console.log(res.data.access)
           this.saveToken(res.data.access);
           router.push({ name: "MainView" });
         })
