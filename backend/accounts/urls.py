@@ -8,7 +8,7 @@ urlpatterns = [
     # JWT 토큰 발행
     path('user/login/', views.login),
     # refresh토큰으로 유저 확인후 access토큰 재발행
-    path('user/token/reissuance/', TokenRefreshView.as_view()),
+    path('user/reissue/', TokenRefreshView.as_view()),
 
     path('user/logout/', views.logout),
     path('user/signup/', views.signup)

@@ -9,7 +9,8 @@ export default {
   accounts: {
     signup_signout: () => HOST + ACCOUNTS + 'user/signup/', //get, post, delete
     login: () => HOST + ACCOUNTS + 'user/login/', //post
-    logout: () => HOST + ACCOUNTS + 'user/logout/'
+    logout: () => HOST + ACCOUNTS + 'user/logout/',
+    reissue: () => HOST + ACCOUNTS + 'user/reissue/',
   },
   boards: {
     boards_detail_update_delete: board_id => HOST + BOARDS + `${board_id}/`, //get, patch

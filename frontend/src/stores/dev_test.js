@@ -21,7 +21,7 @@ export const useStore = defineStore("dev_test", {
           headers: this.authHeader,
         })
         .then((res) => {
-          console.log(res.data.access);
+          console.log(res.data);
         })
         .catch((err) => {
           console.error(err.response);
@@ -66,6 +66,7 @@ export const useStore = defineStore("dev_test", {
             icon: "success",
           });
           this.boards = res.data;
+          this.reissueToken()
           router.push({ name: "MainView" });
         })
         .catch((err) => {
@@ -89,6 +90,7 @@ export const useStore = defineStore("dev_test", {
             icon: "success",
           });
           this.boards = res.data;
+          this.reissueToken()
           router.push({ name: "BoardDetailView" });
         })
         .catch((err) => {
@@ -117,7 +119,24 @@ export const useStore = defineStore("dev_test", {
           });
         });
     },
-
+    reissueToken() {
+      const refresh = localStorage.getItem('refresh')
+      axios
+        .post(api.accounts.reissue(), {
+          refresh: refresh
+        })
+        .then((res) => {
+          this.saveToken(res.data.access);
+        })
+        .catch(() => {
+          Swal.fire({
+            title: "CURI@US",
+            text: "인증에 실패하였습니다..",
+            icon: "error",
+          });
+          this.removeToken();
+        });
+    },
     saveToken(token) {
       this.accesstoken = token;
       localStorage.setItem("token", token);
@@ -126,6 +145,7 @@ export const useStore = defineStore("dev_test", {
     removeToken() {
       this.accesstoken = "";
       localStorage.setItem("token", "");
+      localStorage.removeItem("refresh")
     },
     fetchLogin(credentials) {
       axios
@@ -142,6 +162,7 @@ export const useStore = defineStore("dev_test", {
             icon: "success",
           });
           this.saveToken(res.data.access);
+          localStorage.setItem("refresh", res.data.refresh)
           router.push({ name: "MainView" });
         })
         .catch((err) => {
@@ -161,7 +182,11 @@ export const useStore = defineStore("dev_test", {
             icon: "success",
           });
           router.push({ name: "MainView" });
-        });
+        })
+        .catch(() => {
+          this.reissueToken()
+          this.logout()
+        })
     },
     fetchProfile() {
       axios
@@ -190,19 +215,6 @@ export const useStore = defineStore("dev_test", {
                 this.removeToken();
               });
           }
-        });
-    },
-    tokenReissue() {
-      axios
-        .get(api.accounts.reissue(), {
-          withCredentials: true,
-          headers: this.authHeader,
-        })
-        .then((res) => {
-          this.saveToken(res.data.data);
-        })
-        .catch(() => {
-          this.logout();
         });
     },
     userDelete() {

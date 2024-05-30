@@ -18,7 +18,7 @@
           </form>
           <div>
               <!-- <button v-if="answer" @click="close()" id="close">댓글취소</button> -->
-              <router-link  :to="{ name: 'MainView' }">취소</router-link>
+              <router-link  :to="{ name: 'BoardDetailView', params:{board_id: board_id}}">취소</router-link>
           </div>
         </div>
   </div>

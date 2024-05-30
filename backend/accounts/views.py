@@ -46,6 +46,7 @@ def logout(request):
                 token.delete()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 # 회원가입 신청
 @api_view(["POST"])
