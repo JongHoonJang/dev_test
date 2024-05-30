@@ -23,22 +23,23 @@ import { useStore } from '@/stores/dev_test';
 export default {
   props: ['board'],
   setup(props) {
-    const test = useStore()
+    const api = useStore()
     const boards = ref(props)
+    const board_id = ref(boards.value.board.id)
     const timedata = (boards.value.board.created_at).split('T')
     const day = timedata[0]
     const time = timedata[1].split('.')
     const isQuestion = !!boards.value.board.order_id
     let blank = '->';
-    boards.value.board.depth * 5
     blank = blank.padStart(boards.value.board.depth * 3, " ")
-    console.log(blank)
     const to_detail = () => {
-      router.push({ name: 'BoardDetailView',params: {board_id: boards.value.board.id} });
+      // api.addCounting(data)
+      api.fatchBoard(board_id.value)
+      router.push({ name: 'BoardDetailView',params: {board_id: board_id.value} });
     }
     return {
       boards,
-      test,
+      api,
       day,
       time,
       isQuestion,
@@ -55,5 +56,6 @@ export default {
 }
 pre {
   margin: 0;
+  cursor: pointer;
 }
 </style>

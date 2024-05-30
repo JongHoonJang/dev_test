@@ -14,16 +14,12 @@
           </div>
         </form>
       </div>
-      <div>
-        <a class='create_board' @click="writing()">글쓰기</a>
-      </div>
     </nav>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useStore } from '@/stores/dev_test';
-import router from '@/router';
 import Swal from 'sweetalert2';
 export default {
   setup() {
@@ -31,9 +27,6 @@ export default {
     const credentials = {
       username: '',
       password: ''
-    }
-    const writing = () => {
-      router.push({name: 'BoardCreateView'})
     }
     const login = (data) => {
       account.value.fetchLogin(data)
@@ -58,7 +51,6 @@ export default {
       credentials,
       login,
       logout,
-      writing,
     };
   },
 };

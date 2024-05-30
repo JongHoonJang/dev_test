@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import BoardCreateView from '@/components/BoardCreateView.vue'
 import BoardDetailView from '@/components/BoardDetailView.vue'
 import BoardListView from '@/components/BoardListView.vue'
-import CommentCreateView from '@/components/CommentCreateView.vue'
-import CommentListView from '@/components/CommentListView.vue'
+import CommentCreateView from '@/components/BoardEditView.vue'
 import MainView from '@/components/MainView.vue'
 
 
@@ -29,13 +28,8 @@ const routes = [
     component: BoardDetailView
   },
   {
-    path: '/board/:board_id/comment',
-    name: 'CommentListView',
-    component: CommentListView
-  },
-  {
-    path: '/board/:board_id/comment/create',
-    name: 'CommentCreateView',
+    path: '/board/:board_id/edit',
+    name: 'BoardEditView',
     component: CommentCreateView
   },
 ]

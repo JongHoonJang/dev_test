@@ -1,25 +1,30 @@
 <template>
   <div class="board-detail">
     <div>유형</div>
-    <div>
-      {{board_data.id}}
+    <div v-if="!isQuestion">
+      질문
+    </div>
+    <div v-if="isQuestion">
+      답변
     </div>
     <div>제목</div>
     <div>
-      {{board_data.title}}
+      {{boards.board.title}}
     </div>
     <div>내용</div>
     <div>
-      {{board_data.content}}
+      {{boards.board.content}}{{isAnswer}}
     </div>
-    <div>댓글</div>
-    <div>
-      {{board_data.comment_set}}
+    <div class="buttons">
+      <button @click="isAnswer=true">답변</button>
+      <button @click="deleteBoard()">삭제</button>
+      <button @click="editBoard()">수정</button>
+      <button @click="back()">닫기</button>
     </div>
-    <button>답변</button>
-    <button>삭제</button>
-    <button>수정</button>
-    <button>닫기</button>
+    <BoardCreateViewVue v-if="isAnswer"
+    :isAnswer="isAnswer"
+    :board_id="board_id"
+    />
   </div>
 </template>
 
@@ -27,15 +32,49 @@
 import { ref } from "vue"
 import { useRoute } from 'vue-router'
 import { useStore } from '@/stores/dev_test';
+import router from '@/router';
+import BoardCreateViewVue from '@/components/BoardCreateView.vue';
+import Swal from "sweetalert2";
 export default {
+  components:{
+    BoardCreateViewVue
+  },
+  data(){
+    return {
+      isAnswer:false
+    }
+  },
   setup () {
-    const route = useRoute()
-    const board_id = ref(route.params.board_id)
+    const route = ref(useRoute())
+    const board_id = ref(route.value.params.board_id)
     const boards = ref(useStore())
     boards.value.fatchBoard(board_id.value)
-    const board_data = boards.value.board
+    const isQuestion = !!boards.value.board.order_id
+    const back = () => {
+      router.push({ name:"MainView"})
+    }
+    const deleteBoard = () =>{
+      if (boards.value.isLoggedIn){
+        boards.value.deleteBoard(board_id.value)
+      }
+      else{
+        Swal.fire({
+            title: "dev_test",
+            text: "로그인을 해주세요.",
+            icon: "error",
+          });
+      }
+    }
+    const editBoard = () => {
+      router.push({ name: 'BoardDetailView',params: {board_id: board_id.value} })
+    }
     return {
-      board_data
+      boards,
+      board_id,
+      isQuestion,
+      back,
+      deleteBoard,
+      editBoard
     }
   }
 };
@@ -46,5 +85,12 @@ export default {
   flex-direction: column;
   justify-self: center;
   align-items: center;
+}
+.buttons{
+  flex-direction: column;
+}
+button{
+  margin: 5px;
+  background-color: #ccffee;
 }
 </style>

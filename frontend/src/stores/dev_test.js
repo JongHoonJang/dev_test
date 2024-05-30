@@ -15,6 +15,18 @@ export const useStore = defineStore("dev_test", {
     authHeader: (state) => ({ Authorization: `Bearer ${state.accesstoken}` }),
   },
   actions: {
+    addCounting(board_id) {
+      axios
+        .get(api.boards.boards_counting(board_id), {
+          headers: this.authHeader,
+        })
+        .then((res) => {
+          console.log(res.data.access);
+        })
+        .catch((err) => {
+          console.error(err.response);
+        });
+    },
     fatchBoards() {
       axios
         .get(api.boards.boards_list(), {
@@ -97,7 +109,11 @@ export const useStore = defineStore("dev_test", {
           router.push({ name: "MainView" });
         })
         .catch((err) => {
-          console.error(err.response);
+          Swal.fire({
+            title: "dev_test",
+            text: err.data,
+            icon: "error",
+          });
         });
     },
 

@@ -54,32 +54,37 @@ def board_create(request):
     
 @api_view(["GET", "PUT", "DELETE"])
 def board_detail_or_update_or_delete(request, board_id):
-    borad = get_object_or_404(Board, id=board_id)
-    
+    board = get_object_or_404(Board, id=board_id)
     if request.method == "GET":
-        serializer = BoardDetailSerializer(borad)
+        serializer = BoardDetailSerializer(board)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    token = request.data.get('headers').get('Authorization')
+    token = request.META.get("HTTP_AUTHORIZATION")
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     if request.method == "PUT":
-        serializer = BoardDetailSerializer(instance=borad, data=request.data.get("data"))
+        serializer = BoardDetailSerializer(instance=board, data=request.data.get("data"))
         if serializer.is_valid(raise_exception=True):
             serializer.save(user_id=user)
         return Response(status=status.HTTP_200_OK)
-
     elif request.method == "DELETE":
-        borad.delete()
-        return Response(status=status.HTTP_200_OK)
+        print(board.user_id.id, user.username, user_token)
+        if board.user_id.id == user_token:
+            board.delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            data = {
+                '게시글을 삭제할 수있는 권한이 없습니다.'
+            }
+            return Response(data,status=status.HTTP_403_FORBIDDEN)
 
     return Response(status=status.HTTP_403_FORBIDDEN)
 
 @api_view(["GET"])
-def get_counting(request):  
-    board = get_object_or_404(Board,id=request.data.get('data').get('id'))
-    if 'headers' in request.data.keys():
-        token = request.data.get('headers').get('Authorization')
+def get_counting(request, board_id):  
+    board = get_object_or_404(Board,id=board_id)
+    if 'headers' in request.META.keys():
+        token = request.META.get("HTTP_AUTHORIZATION")
         user_token = checkuser(token)
         user = get_object_or_404(get_user_model(), id=user_token)
         if not board.counting.filter(ip=user.username).exists():

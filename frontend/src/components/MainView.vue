@@ -18,11 +18,15 @@
         />
       </tbody>
     </table>
+    <div >
+        <button class='create_board' @click="writing()">글쓰기</button>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
+import router from '@/router';
 import BoardListView from '@/components/BoardListView.vue'
 import { useStore } from '@/stores/dev_test';
 export default {
@@ -32,8 +36,12 @@ export default {
   setup() {
     const boards = ref(useStore())
     boards.value.fatchBoards()
+    const writing = () => {
+      router.push({name: 'BoardCreateView'})
+    }
     return {
-      boards
+      boards,
+      writing
     }
   }
 }
@@ -66,17 +74,21 @@ a {
   align-items: center;
   width: 100vw;
   height: 8vh;
+  flex-direction: column;
 }
 .boardlist {
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 70vw;
   height: 8vh;
   margin: 5vw;
 }
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
+}
+tr {
+  height: 4vh;
 }
 table {
   width : 300px;
@@ -85,4 +97,8 @@ table {
 th {
   text-align: center;
 }
+.create_board{
+  background-color: #ccffee;
+}
+
 </style>
