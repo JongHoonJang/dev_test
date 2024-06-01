@@ -33,7 +33,7 @@ export default {
     let blank = '->';
     blank = blank.padStart(boards.value.board.depth * 3, " ")
     const to_detail = () => {
-      // api.addCounting(data)
+      api.addCounting(board_id.value)
       api.fatchBoard(board_id.value)
       router.push({ name: 'BoardDetailView',params: {board_id: board_id.value} });
     }

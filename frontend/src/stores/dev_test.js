@@ -17,7 +17,7 @@ export const useStore = defineStore("dev_test", {
   actions: {
     addCounting(board_id) {
       axios
-        .get(api.boards.boards_counting(board_id), {
+        .post(api.boards.boards_counting(board_id), {
           headers: this.authHeader,
         })
         .then((res) => {

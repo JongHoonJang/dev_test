@@ -79,19 +79,27 @@ def board_detail_or_update_or_delete(request, board_id):
 
     return Response(status=status.HTTP_403_FORBIDDEN)
 
-@api_view(["GET"])
+@api_view(["POST"])
 def get_counting(request, board_id):  
     board = get_object_or_404(Board,id=board_id)
-    if 'headers' in request.META.keys():
-        token = request.META.get("HTTP_AUTHORIZATION")
+    print(request.data.get('headers'))
+    if request.data.get('headers'):
+        token = request.data.get('headers').get('Authorization')
         user_token = checkuser(token)
         user = get_object_or_404(get_user_model(), id=user_token)
-        if not board.counting.filter(ip=user.username).exists():
-           board.counting.create(ip=user.username)  
+
+        if not board.counting.filter(ip=user).exists():
+            if not Counting.objects.filter(ip=user).exists():
+                board.counting.create(ip=user)  
+            else:
+                board.counting.add(Counting.objects.get(ip=user))
     else:
         ip = request.META.get('REMOTE_ADDR')
         if not board.counting.filter(ip=ip).exists():
-            board.counting.create(ip=ip)
+            if not Counting.objects.filter(ip=ip).exists():
+                board.counting.create(ip=ip)  
+            else:
+                board.counting.add(Counting.objects.get(ip=ip))
 
     return Response(status=status.HTTP_200_OK)
 
