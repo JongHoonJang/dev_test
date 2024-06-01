@@ -97,8 +97,17 @@ table {
 th {
   text-align: center;
 }
-.create_board{
-  background-color: #ccffee;
+button{
+  margin: 5px;
+  background-color:#4CAF50;
+  color:white;
+  font-size:15px;
+  padding: 5px 10px;
+  border-radius : 5px;
 }
+button:hover{
 
+ cursor:pointer;
+ opacity:0.8;
+}
 </style>
