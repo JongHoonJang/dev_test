@@ -53,6 +53,7 @@ export default {
 <style scoped>
 .td {
   text-align: center;
+  cursor:default
 }
 pre {
   margin: 0;

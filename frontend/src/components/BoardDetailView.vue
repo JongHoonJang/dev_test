@@ -1,18 +1,20 @@
 <template>
   <div class="board-detail">
-    <div>유형</div>
-    <div v-if="!isQuestion">
-      질문
+    <div class="board-q">
+      <div class="list-box">유형</div>
+      <div class="q-box" v-if="!isQuestion">
+        질문
+      </div>
+      <div class="q-box" v-if="isQuestion">
+        답변
+      </div>
     </div>
-    <div v-if="isQuestion">
-      답변
-    </div>
-    <div>제목</div>
-    <div>
+    <div class="title-box">제목</div>
+    <div class="t-box">
       {{boards.board.title}}
     </div>
-    <div>내용</div>
-    <div>
+    <div class="content-box">내용</div>
+    <div class="c-box">
       {{boards.board.content}}
     </div>
     <div class="buttons">
@@ -85,6 +87,7 @@ export default {
   flex-direction: column;
   justify-self: center;
   align-items: center;
+  margin-top: 30px;
 }
 .buttons{
   flex-direction: column;
@@ -101,5 +104,49 @@ button:hover{
 
  cursor:pointer;
  opacity:0.8;
+}
+.q-box ,.list-box{
+  margin: 5px 0px;
+  font-size:18px;
+  padding: 5px 10px;
+  border-radius : 5px;
+  border: 1px solid black;
+  font-weight: bolder;
+  width: 10vh;
+  text-align: center;
+}
+
+.list-box{
+  background-color: aquamarine;
+}
+.board-q{
+  display: flex;
+}
+.title-box, .t-box{
+  margin: 5px 0px;
+  font-size:18px;
+  padding: 5px 10px;
+  border-radius : 5px;
+  border: 1px solid black;
+  width: 69vh
+}
+.title-box {
+  background-color: aquamarine;
+  font-weight: bolder;
+}
+.c-box, .content-box {
+  margin: 5px 0px;
+  font-size:18px;
+  padding: 5px 10px;
+  border-radius : 5px;
+  border: 1px solid black;
+  width: 69vh
+}
+.content-box {
+  background-color: aquamarine;
+  font-weight: bolder;
+}
+.c-box {
+  height: 15vh;
 }
 </style>

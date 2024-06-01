@@ -89,10 +89,10 @@ input, textarea {
   font-size: 18px;
   margin-bottom: 5px;
   border-radius: 5px;
-  width: 80vh;
+  width: 70vh;
 }
 textarea {
-  height: 20vh;
+  height: 15vh;
 }
 input {
   height: 5vh;

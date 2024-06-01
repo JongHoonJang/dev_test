@@ -6,11 +6,11 @@
         </div>
         <form v-if="!account.isLoggedIn" @submit.prevent="login(credentials)" class='account-info'>
           <div>
-            <p><input v-model.trim="credentials.username" type="username" placeholder="username" class="input-prop"></p>
-            <p><input v-model.trim="credentials.password" type="password" placeholder="password" class="input-prop"></p> 
-          </div>
-          <div class="btn-box">
+            <input v-model.trim="credentials.username" type="username" placeholder="username" class="input-prop">
+            <input v-model.trim="credentials.password" type="password" placeholder="password" class="input-prop">
+            <div class="btn-box">
               <button class="login-btn">Sign In</button>
+            </div>
           </div>
         </form>
       </div>
@@ -99,7 +99,24 @@ nav {
 .nav-laft a:hover {
   color: gold;
 }
-/* .input-prop{
+input {
+  font-size: 15px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  width: 10vh;
+  margin: 0px 5px;
+}
+button{
+  margin: 5px 5px;
+  background-color:#4CAF50;
+  color:white;
+  font-size:13px;
+  padding: 5px 10px;
+  border-radius : 5px;
+}
+button:hover{
 
-} */
+ cursor:pointer;
+ opacity:0.8;
+}
 </style>

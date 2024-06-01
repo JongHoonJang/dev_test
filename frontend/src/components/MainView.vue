@@ -18,7 +18,7 @@
         />
       </tbody>
     </table>
-    <div >
+    <div class="button">
         <button class='create_board' @click="writing()">글쓰기</button>
     </div>
   </div>
@@ -86,6 +86,7 @@ a {
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
+  cursor:default
 }
 tr {
   height: 4vh;
@@ -110,4 +111,5 @@ button:hover{
  cursor:pointer;
  opacity:0.8;
 }
+
 </style>
