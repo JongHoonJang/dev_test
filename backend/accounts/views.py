@@ -37,7 +37,7 @@ def login(request):
 @api_view(["POST"])
 def logout(request):
     if request.method == "POST":
-        token = request.data.get('headers').get('Authorization')
+        token = request.META.get('HTTP_AUTHORIZATION')
         user_id = checkuser(token)
         tokens = OutstandingToken.objects.filter(user_id=user_id)
         if tokens is not None:
@@ -63,7 +63,7 @@ def signup(request):
 
 @api_view(["GET", "PUT", "DELETE"])
 def user_detail_or_update_or_delete(request):
-    token = request.data.get('headers').get('Authorization')
+    token = request.META.get('HTTP_AUTHORIZATION')
     user_id = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_id)
     # 유저 상세정보

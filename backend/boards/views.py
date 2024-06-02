@@ -22,7 +22,7 @@ def board_list(request):
 @api_view(["POST"])
 def board_create(request):
     board = Board()
-    token = request.data.get('headers').get('Authorization')
+    token = request.META.get('HTTP_AUTHORIZATION')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     board.title = request.data.get('data').get('title')
@@ -58,7 +58,7 @@ def board_detail_or_update_or_delete(request, board_id):
     if request.method == "GET":
         serializer = BoardDetailSerializer(board)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    token = request.data.get('headers').get('Authorization')
+    token = request.META.get('HTTP_AUTHORIZATION')
     user_token = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_token)
     if request.method == "PUT":
@@ -82,9 +82,8 @@ def board_detail_or_update_or_delete(request, board_id):
 @api_view(["POST"])
 def get_counting(request, board_id):  
     board = get_object_or_404(Board,id=board_id)
-    print(request.data.get('headers'))
-    if request.data.get('headers'):
-        token = request.data.get('headers').get('Authorization')
+    if request.META.get('HTTP_AUTHORIZATION'):
+        token = request.META.get('HTTP_AUTHORIZATION')
         user_token = checkuser(token)
         user = get_object_or_404(get_user_model(), id=user_token)
 

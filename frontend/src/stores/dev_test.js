@@ -57,8 +57,7 @@ export const useStore = defineStore("dev_test", {
             title: data.title,
             content: data.content
           },
-          headers: this.authHeader,
-        })
+        },{headers: this.authHeader})
         .then((res) => {
           Swal.fire({
             title: "dev_test",
@@ -81,8 +80,7 @@ export const useStore = defineStore("dev_test", {
             title: data.title,
             content: data.content
           },
-          headers: this.authHeader,
-        })
+        },{headers: this.authHeader})
         .then((res) => {
           Swal.fire({
             title: "dev_test",
@@ -99,7 +97,7 @@ export const useStore = defineStore("dev_test", {
     },
     deleteBoard(data) {
       axios
-        .delete(api.boards.boards_detail_update_delete(data), {
+        .delete(api.boards.boards_detail_update_delete(data),{
           headers: this.authHeader,
         })
         .then((res) => {
@@ -171,7 +169,7 @@ export const useStore = defineStore("dev_test", {
     },
     logout() {
       axios
-        .post(api.accounts.logout(), {
+        .post(api.accounts.logout(),{}, {
           headers: this.authHeader,
         })
         .then(() => {
