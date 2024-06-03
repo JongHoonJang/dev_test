@@ -90,8 +90,12 @@ export const useStore = defineStore("dev_test", {
           this.reissueToken()
           router.push({ name: "BoardDetailView" });
         })
-        .catch((err) => {
-          console.error(err.response);
+        .catch(() => {
+          Swal.fire({
+            title: "dev_test",
+            text: "게시글을 수정할 권한이 없습니다.",
+            icon: "error",
+          });
         });
     },
     deleteBoard(data) {
@@ -108,10 +112,10 @@ export const useStore = defineStore("dev_test", {
           this.boards = res.data;
           router.push({ name: "MainView" });
         })
-        .catch((err) => {
+        .catch(() => {
           Swal.fire({
             title: "dev_test",
-            text: err.data,
+            text: "게시글을 삭제할 권한이 없습니다.",
             icon: "error",
           });
         });
@@ -142,7 +146,7 @@ export const useStore = defineStore("dev_test", {
     removeToken() {
       this.accesstoken = "";
       localStorage.setItem("token", "");
-      localStorage.removeItem("refresh")
+      localStorage.removeItem("refresh");
     },
     signup(data) {
       axios
@@ -181,7 +185,7 @@ export const useStore = defineStore("dev_test", {
             icon: "success",
           });
           this.saveToken(res.data.access);
-          localStorage.setItem("refresh", res.data.refresh)
+          localStorage.setItem("refresh", res.data.refresh);
           router.push({ name: "MainView" });
         })
         .catch((err) => {
@@ -203,8 +207,8 @@ export const useStore = defineStore("dev_test", {
           router.push({ name: "MainView" });
         })
         .catch(() => {
-          this.reissueToken()
-          this.logout()
+          this.reissueToken();
+          this.logout();
         })
     },
     fetchProfile() {

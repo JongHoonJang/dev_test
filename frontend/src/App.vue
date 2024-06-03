@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import NavBarView from '@/components/NavBarView';
+import NavBarView from "@/components/NavBarView";
 
 export default {
   components: { NavBarView },

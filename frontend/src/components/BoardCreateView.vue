@@ -26,34 +26,33 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import router from '@/router';
-import { useStore } from '@/stores/dev_test';
+import { ref } from "vue";
+import router from "@/router";
+import { useStore } from "@/stores/dev_test";
 
 export default {
-  props:['isAnswer','board_id'],
+  props:["isAnswer","board_id"],
   setup(props) {
     const dev_test = ref(useStore());
-    const ans = ref(props)
-    const answer = ans.value.isAnswer
+    const ans = ref(props);
+    const answer = ans.value.isAnswer;
     const credentials = {
       no: -1,
-      title: '',
-      content: ''
-    }
+      title: "",
+      content: ""
+    };
     const close = () => {
-      router.go(0)
-    }
+      router.go(0);
+    };
     const boardCreate = (data) => {
       if (ans.value.board_id) {
-        data.no = ans.value.board_id
+        data.no = ans.value.board_id;
       }
-      console.log(data)
-      dev_test.value.createBoard(data)
-    }
+      dev_test.value.createBoard(data);
+    };
     const goMain = () => {
-      router.push({ name: 'MainView' })
-    }
+      router.push({ name: "MainView" })
+    };
     return {
       credentials,
       boardCreate,

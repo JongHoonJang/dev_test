@@ -4,7 +4,7 @@
         <div class="nav-laft">
           <a v-if="account.isLoggedIn" @click="logout()">로그아웃</a>
         </div>
-        <form v-if="!account.isLoggedIn" @submit.prevent="login(credentials)" class='account-info'>
+        <form v-if="!account.isLoggedIn" @submit.prevent="login(credentials)" class="account-info">
           <div>
             <input v-model.trim="credentials.username" type="username" placeholder="username" class="input-prop">
             <input v-model.trim="credentials.password" type="password" placeholder="password" class="input-prop">
@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useStore } from '@/stores/dev_test';
-import Swal from 'sweetalert2';
-import ModalView from '@/components/ModalView.vue';
-import SignupView from '@/components/SignupView.vue';
+import { ref } from "vue";
+import { useStore } from "@/stores/dev_test";
+import Swal from "sweetalert2";
+import ModalView from "@/components/ModalView";
+import SignupView from "@/components/SignupView";
 export default {
   components: {
     SignupView,
@@ -35,22 +35,22 @@ export default {
   data() {
     return {
       isModalViewed: false,
-    }
+    };
   },
   setup() {
     const account = ref(useStore());
     const credentials = {
-      username: '',
-      password: ''
-    }
+      username: "",
+      password: ""
+    };
     const login = (data) => {
       account.value.fetchLogin(data)
     };
     const logout = () => {
       Swal.fire({
-        title: 'dev_test',
-        text: '로그아웃 하시겠습니까?',
-        icon: 'warning',
+        title: "dev_test",
+        text: "로그아웃 하시겠습니까?",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
@@ -72,12 +72,7 @@ export default {
 </script>
 
 <style scoped>
-/* @font-face {
-  font-family: "BMJUA_ttf";
-  src: url(../assets/BMJUA_ttf.ttf);
-  font-weight: normal;
-  font-style: normal;
-} */
+
 nav {
   margin: 0;
   width: 99vw;
