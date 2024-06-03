@@ -82,6 +82,7 @@ def board_detail_or_update_or_delete(request, board_id):
 @api_view(["POST"])
 def get_counting(request, board_id):  
     board = get_object_or_404(Board,id=board_id)
+
     if request.META.get('HTTP_AUTHORIZATION'):
         token = request.META.get('HTTP_AUTHORIZATION')
         user_token = checkuser(token)

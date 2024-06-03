@@ -14,14 +14,29 @@
           </div>
         </form>
       </div>
+      <div v-if="!account.isLoggedIn" class="signup" @click="isModalViewed=true">회원가입</div>
     </nav>
+    <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
+        <SignupView/>
+    </ModalView>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useStore } from '@/stores/dev_test';
 import Swal from 'sweetalert2';
+import ModalView from '@/components/ModalView.vue';
+import SignupView from '@/components/SignupView.vue';
 export default {
+  components: {
+    SignupView,
+    ModalView,
+  },
+  data() {
+    return {
+      isModalViewed: false,
+    }
+  },
   setup() {
     const account = ref(useStore());
     const credentials = {
@@ -97,7 +112,13 @@ nav {
   color: black;
 }
 .nav-laft a:hover {
-  color: gold;
+  color: blue;
+}
+.signup {
+  margin-right: 10px;
+}
+.signup:hover{
+  color: blue;
 }
 input {
   font-size: 15px;

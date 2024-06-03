@@ -17,7 +17,7 @@ export const useStore = defineStore("dev_test", {
   actions: {
     addCounting(board_id) {
       axios
-        .post(api.boards.boards_counting(board_id), {
+        .post(api.boards.boards_counting(board_id),{}, {
           headers: this.authHeader,
         })
         .then((res) => {
@@ -73,7 +73,6 @@ export const useStore = defineStore("dev_test", {
         });
     },
     updateBoard(data) {
-      console.log(data)
       axios
         .put(api.boards.boards_detail_update_delete(data.no), {
           data: {
@@ -144,6 +143,28 @@ export const useStore = defineStore("dev_test", {
       this.accesstoken = "";
       localStorage.setItem("token", "");
       localStorage.removeItem("refresh")
+    },
+    signup(data) {
+      axios
+      .post(api.accounts.signup(), {
+        data: data
+      })
+      .then(() => {
+        Swal.fire({
+          title: "dev_test",
+          text: "회원가입되었습니다.",
+          icon: "success",
+        });
+        setTimeout(() => router.go(0), 3000);
+      })
+      .catch(() => {
+        Swal.fire({
+          title: "dev_test",
+          text: "인증에 실패하였습니다..",
+          icon: "error",
+        });
+        this.removeToken();
+      });
     },
     fetchLogin(credentials) {
       axios
