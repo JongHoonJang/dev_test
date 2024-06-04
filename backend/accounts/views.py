@@ -13,10 +13,10 @@ from .serializers import (
     UserSignupSerializer
 )
 
-@api_view(["POST"])
+@api_view(['POST'])
 def login(request):
-    username=request.data.get("data").get("username")
-    password=request.data.get("data").get("password")
+    username=request.data.get('data').get('username')
+    password=request.data.get('data').get('password')
     user = get_user_model().objects.get(username=username)
     
     if user is not None and check_password(password, user.password):
@@ -25,8 +25,8 @@ def login(request):
         refresh_token = str(token)
         access_token = str(token.access_token)
         data = {
-            "refresh": refresh_token,
-            "access": access_token,
+            'refresh': refresh_token,
+            'access': access_token,
         }
         return Response(data, status=status.HTTP_200_OK)
 
@@ -34,9 +34,9 @@ def login(request):
 
 
 # 로그아웃
-@api_view(["POST"])
+@api_view(['POST'])
 def logout(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         token = request.META.get('HTTP_AUTHORIZATION')
         user_id = checkuser(token)
         tokens = OutstandingToken.objects.filter(user_id=user_id)
@@ -49,10 +49,10 @@ def logout(request):
     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 # 회원가입 신청
-@api_view(["POST"])
+@api_view(['POST'])
 def signup(request):
-    if request.method == "POST":
-        user = UserSignupSerializer(data=request.data.get("data"))
+    if request.method == 'POST':
+        user = UserSignupSerializer(data=request.data.get('data'))
         if user.is_valid(raise_exception=True):
             user.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -61,23 +61,23 @@ def signup(request):
         
 
 
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(['GET', 'PUT', 'DELETE'])
 def user_detail_or_update_or_delete(request):
     token = request.META.get('HTTP_AUTHORIZATION')
     user_id = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_id)
     # 유저 상세정보
-    # if request.method == "GET":
+    # if request.method == 'GET':
     #     serializer = UserDetailSerializer(user)
     #     return Response(serializer.data, status=status.HTTP_200_OK)
     # 유저 정보 수정
-    if request.method == "PUT":
+    if request.method == 'PUT':
         serializer = UserSignupSerializer(instance=user, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(status=status.HTTP_200_OK)
     # 회원 탈퇴(비활성화)
-    elif request.method == "DELETE":
+    elif request.method == 'DELETE':
         tokens = OutstandingToken.objects.filter(user_id=user_id)
         if tokens is not None:
             for token in tokens:

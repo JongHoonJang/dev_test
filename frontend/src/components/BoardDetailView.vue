@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import { ref } from "vue"
-import { useRoute } from 'vue-router'
-import { useStore } from '@/stores/dev_test';
-import router from '@/router';
-import BoardCreateViewVue from '@/components/BoardCreateView.vue';
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "@/stores/dev_test";
+import router from "@/router";
+import BoardCreateViewVue from "@/components/BoardCreateView";
 import Swal from "sweetalert2";
 export default {
   components:{
@@ -44,17 +44,17 @@ export default {
   data(){
     return {
       isAnswer:false
-    }
+    };
   },
   setup () {
-    const route = ref(useRoute())
-    const board_id = ref(route.value.params.board_id)
-    const boards = ref(useStore())
-    boards.value.fatchBoard(board_id.value)
-    const isQuestion = !!boards.value.board.order_id
+    const route = ref(useRoute());
+    const board_id = ref(route.value.params.board_id);
+    const boards = ref(useStore());
+    boards.value.fatchBoard(board_id.value);
+    const isQuestion = !!boards.value.board.order_id;
     const back = () => {
       router.push({ name:"MainView"})
-    }
+    };
     const deleteBoard = () =>{
       if (boards.value.isLoggedIn){
         boards.value.deleteBoard(board_id.value)
@@ -66,10 +66,12 @@ export default {
             icon: "error",
           });
       }
-    }
+    };
     const editBoard = () => {
-      router.push({ name: 'BoardEditView',params: {board_id: board_id.value} })
-    }
+      if (boards.value.isLoggedIn){
+        router.push({ name: "BoardEditView",params: {board_id: board_id.value} });
+      }
+    };
     return {
       boards,
       board_id,
@@ -77,7 +79,7 @@ export default {
       back,
       deleteBoard,
       editBoard
-    }
+    };
   }
 };
 </script>

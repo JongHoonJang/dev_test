@@ -1,6 +1,6 @@
 <template>
   <div class="signup-form">
-    <form @submit.prevent="sign(signdata)" class='account-info'>
+    <form @submit.prevent="sign(signdata)" class="account-info">
       <p><input v-model.trim="signdata.name" @input="limitNickname" type="text" placeholder="name" class="input-prop"></p>
       <p><input v-model.trim="signdata.username" @input="limitPassword"  placeholder="username" class="input-prop"></p>
       <p><input v-model.trim="signdata.password" type="password" placeholder="password" class="input-prop"></p>
@@ -10,27 +10,27 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useStore } from '@/stores/dev_test';
+import { ref } from "vue";
+import { useStore } from "@/stores/dev_test";
 
 export default {
   setup() {
     const account = ref(useStore());
     const signdata = {
-      name: '',
-      username: '',
-      password: ''
-    }
+      name: "",
+      username: "",
+      password: ""
+    };
     
     const sign = (data) => {
-      account.value.signup(data)
-    }
+      account.value.signup(data);
+    };
     return {
       signdata,
       sign
-    }
+    };
   },
-}
+};
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div class='Page'>
+  <div class="Page">
     <table class="boardlist">
       <thead>
         <tr style="background-color: #ccffee">
@@ -19,32 +19,32 @@
       </tbody>
     </table>
     <div class="button">
-        <button class='create_board' @click="writing()">글쓰기</button>
+        <button class="create_board" @click="writing()">글쓰기</button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import router from '@/router';
-import BoardListView from '@/components/BoardListView.vue'
-import { useStore } from '@/stores/dev_test';
+import { ref } from "vue";
+import router from "@/router";
+import BoardListView from "@/components/BoardListView"
+import { useStore } from "@/stores/dev_test";
 export default {
   components: {
     BoardListView
   },
   setup() {
-    const boards = ref(useStore())
-    boards.value.fatchBoards()
+    const boards = ref(useStore());
+    boards.value.fatchBoards();
     const writing = () => {
-      router.push({name: 'BoardCreateView'})
-    }
+      router.push({name: "BoardCreateView"})
+    };
     return {
       boards,
       writing
-    }
+    };
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

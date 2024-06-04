@@ -24,28 +24,27 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-// import router from '@/router';
-import { useStore } from '@/stores/dev_test';
-import { useRoute } from 'vue-router'
+import { ref } from "vue";
+import { useStore } from "@/stores/dev_test";
+import { useRoute } from "vue-router"
 export default {
   setup(){
-    const route = ref(useRoute())
-    const board_id = ref(route.value.params.board_id)
-    const boards = ref(useStore())
-    boards.value.fatchBoard(board_id.value)
+    const route = ref(useRoute());
+    const board_id = ref(route.value.params.board_id);
+    const boards = ref(useStore());
+    boards.value.fatchBoard(board_id.value);
     const credentials = {
       no: board_id.value,
       title: boards.value.board.title,
       content: boards.value.board.content
-    }
+    };
     const boardUpdate = (data) => {
-      boards.value.updateBoard(data)
-    }
+      boards.value.updateBoard(data);
+    };
     return {
       credentials,
       boardUpdate
-    }
+    };
   }
 };
 </script>

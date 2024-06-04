@@ -30,7 +30,7 @@ class BoardListSerializer(serializers.ModelSerializer):
             
     user_id = UserSerializer(read_only=True)
     counting = CountingSerializer(many=True, read_only=True)
-    board_counting = serializers.IntegerField(source="counting.count",read_only=True)
+    board_counting = serializers.IntegerField(source='counting.count',read_only=True)
     class Meta:
         model = Board
         fields = (
