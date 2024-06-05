@@ -18,9 +18,9 @@
       {{boards.board.content}}
     </div>
     <div class="buttons">
-      <button @click="isAnswer=true">답변</button>
-      <button @click="deleteBoard()">삭제</button>
-      <button @click="editBoard()">수정</button>
+      <button v-if="boards.isLoggedIn" @click="isAnswer=true">답변</button>
+      <button v-if="boards.isLoggedIn" @click="deleteBoard()">삭제</button>
+      <button v-if="boards.isLoggedIn" @click="editBoard()">수정</button>
       <button @click="back()">닫기</button>
     </div>
     <BoardCreateViewVue v-if="isAnswer"
@@ -71,6 +71,13 @@ export default {
       if (boards.value.isLoggedIn){
         router.push({ name: "BoardEditView",params: {board_id: board_id.value} });
       }
+      else{
+        Swal.fire({
+            title: "dev_test",
+            text: "로그인을 해주세요.",
+            icon: "error",
+          });
+      }
     };
     return {
       boards,
@@ -117,7 +124,9 @@ button:hover{
   width: 10vh;
   text-align: center;
 }
-
+.q-box {
+  margin-right: 46.5vh;
+}
 .list-box{
   background-color: aquamarine;
 }

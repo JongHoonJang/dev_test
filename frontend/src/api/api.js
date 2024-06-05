@@ -10,6 +10,7 @@ export default {
     login: () => HOST + ACCOUNTS + "user/login/", 
     logout: () => HOST + ACCOUNTS + "user/logout/",
     reissue: () => HOST + ACCOUNTS + "user/reissue/",
+    delete: () => HOST + ACCOUNTS + "user/",
   },
   boards: {
     boards_detail_update_delete: board_id => HOST + BOARDS + `${board_id}/`, 

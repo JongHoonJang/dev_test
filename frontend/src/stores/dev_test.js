@@ -164,7 +164,7 @@ export const useStore = defineStore("dev_test", {
       .catch(() => {
         Swal.fire({
           title: "dev_test",
-          text: "인증에 실패하였습니다..",
+          text: "인증에 실패하였습니다.",
           icon: "error",
         });
         this.removeToken();
@@ -188,8 +188,12 @@ export const useStore = defineStore("dev_test", {
           localStorage.setItem("refresh", res.data.refresh);
           router.push({ name: "MainView" });
         })
-        .catch((err) => {
-          console.error(err.response);
+        .catch(() => {
+          Swal.fire({
+            title: "dev_test",
+            text: "아이디 혹은 비밀번호가 다릅니다.",
+            icon: "error",
+          });
         });
     },
     logout() {
@@ -211,67 +215,24 @@ export const useStore = defineStore("dev_test", {
           this.logout();
         })
     },
-    fetchProfile() {
-      axios
-        .get(api.accounts.profile(), {
-          headers: this.authHeader,
-        })
-        .then((res) => {
-          this.profile = res.data.data;
-        })
-        .catch((error) => {
-          if (error.response.status == 401) {
-            axios
-              .get(api.accounts.reissue(), {
-                withCredentials: true,
-              })
-              .then((res) => {
-                this.saveToken(res.data.data);
-                this.fetchProfile();
-              })
-              .catch(() => {
-                Swal.fire({
-                  title: "CURI@US",
-                  text: "인증에 실패하였습니다..",
-                  icon: "error",
-                });
-                this.removeToken();
-              });
-          }
-        });
-    },
     userDelete() {
       axios
         .delete(api.accounts.delete(), {
-          headers: this.authHeader,
+          headers: this.authHeader
         })
         .then(() => {
           Swal.fire({
-            title: "CURI@US",
+            title: "dev_test",
             text: "회원탈퇴 되었습니다.",
             icon: "success",
           });
           this.removeToken();
-          router.push({ name: "RandingView" });
+          setTimeout(() => router.go(0), 3000);
         })
         .catch((error) => {
           if (error.response.status == 401) {
-            axios
-              .get(api.accounts.reissue(), {
-                withCredentials: true,
-              })
-              .then((res) => {
-                this.saveToken(res.data.data);
-                this.userDelete();
-              })
-              .catch(() => {
-                Swal.fire({
-                  title: "CURI@US",
-                  text: "인증에 실패하였습니다..",
-                  icon: "error",
-                });
-                this.removeToken();
-              });
+            this.reissueToken();
+            this.userDelete();
           }
         });
     },

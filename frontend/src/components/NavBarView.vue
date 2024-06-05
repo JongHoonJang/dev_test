@@ -15,6 +15,7 @@
         </form>
       </div>
       <div v-if="!account.isLoggedIn" class="signup" @click="isModalViewed=true">회원가입</div>
+      <div v-if="account.isLoggedIn" class="signout" @click="signout()">회원틸퇴</div>
     </nav>
     <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
         <SignupView/>
@@ -61,11 +62,27 @@ export default {
         }
       });
     };
+    const signout = () => {
+      Swal.fire({
+        title: "dev_test",
+        text: "회원탈퇴 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          account.value.userDelete();
+        }
+      });
+    };
     return {
       account,
       credentials,
       login,
       logout,
+      signout
     };
   },
 };
@@ -109,11 +126,14 @@ nav {
 .nav-laft a:hover {
   color: blue;
 }
-.signup {
+.signup, .signout{
   margin-right: 10px;
 }
 .signup:hover{
   color: blue;
+}
+.signout:hover {
+  color: red
 }
 input {
   font-size: 15px;
@@ -131,7 +151,6 @@ button{
   border-radius : 5px;
 }
 button:hover{
-
  cursor:pointer;
  opacity:0.8;
 }

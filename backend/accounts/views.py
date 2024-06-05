@@ -60,24 +60,13 @@ def signup(request):
 
         
 
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def user_detail_or_update_or_delete(request):
+# 회원 탈퇴
+@api_view(['DELETE'])
+def user_delete(request):
     token = request.META.get('HTTP_AUTHORIZATION')
     user_id = checkuser(token)
     user = get_object_or_404(get_user_model(), id=user_id)
-    # 유저 상세정보
-    # if request.method == 'GET':
-    #     serializer = UserDetailSerializer(user)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    # 유저 정보 수정
-    if request.method == 'PUT':
-        serializer = UserSignupSerializer(instance=user, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-    # 회원 탈퇴(비활성화)
-    elif request.method == 'DELETE':
+    if request.method == 'DELETE':
         tokens = OutstandingToken.objects.filter(user_id=user_id)
         if tokens is not None:
             for token in tokens:
