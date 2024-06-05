@@ -93,3 +93,49 @@ DB : PostgreSql
         localhost:8000/boards/create/ : 게시글 작성
 
         localhost:8000/boards/counting/<<int:board_id>>/ : 조회수
+
+
+
+### 3. 화면
+
+메인화면
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-39-35-image.png)
+
+메인화면(로그인)
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-40-09-image.png)
+
+
+
+글쓰기 페이지
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-40-34-image.png)
+
+
+
+회원가입 페이지
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-41-07-image.png)
+
+
+
+게시글 상세정보(로그인)
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-41-51-image.png)
+
+
+
+게시글 상세정보(비로그인)
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-43-14-image.png)
+
+
+
+답변버튼 클릭시
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-43-41-image.png)
+
+글 수정
+
+![](C:\Users\oem\AppData\Roaming\marktext\images\2024-06-05-20-43-57-image.png)
